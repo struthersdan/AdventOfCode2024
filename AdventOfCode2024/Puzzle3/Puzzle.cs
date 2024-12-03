@@ -11,7 +11,7 @@ namespace AdventOfCode2024.Puzzle3
         {
             var total = 0L;
 
-            Regex r = new(@"mul\((?'left'\d+),(?'right'\d+)\)");
+            Regex r = new(@"mul\((?'left'\d{1,3}),(?'right'\d{1,3})\)");
             var m = r.Match(_input);
             while (m.Success)
             {
@@ -28,7 +28,7 @@ namespace AdventOfCode2024.Puzzle3
             var total = 0L;
             var mulActive = true;
             
-            Regex r = new(@"mul\((?'left'\d+),(?'right'\d+)\)|do\(\)|don\'t\(\)");
+            Regex r = new(@"mul\((?'left'\d{1,3}),(?'right'\d{1,3})\)|do\(\)|don\'t\(\)");
 
             var m = r.Match(_input);
             while (m.Success)
@@ -38,7 +38,7 @@ namespace AdventOfCode2024.Puzzle3
                     case "don't()":
                         mulActive = false;
                         break;
-                    case "do()":
+                    case "do()" :
                         mulActive = true;
                         break;
                     default:
@@ -58,5 +58,7 @@ namespace AdventOfCode2024.Puzzle3
 
             return total;
         }
+
+    
     }
 }

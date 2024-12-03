@@ -15,7 +15,7 @@ namespace AdventOfCode2024.Puzzle3
             Console.WriteLine(result);
         }
 
-    //    [TestCase("sample.txt", 48)] 
+        [TestCase("sample.txt", 48)] 
         [TestCase("a.txt", 62098619)]
         public void PartB(string inputName, int answer)
         {
