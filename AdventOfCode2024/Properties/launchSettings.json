@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AdventOfCode2024": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
