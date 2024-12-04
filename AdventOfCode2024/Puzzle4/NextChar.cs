@@ -5,15 +5,15 @@ public record NextChar
     public NextChar(char current, int I, int J, Direction Direction)
     {
         Current = current;
-        i = I + Direction.vertical;
-        j = J + Direction.horizontal;
-        direction = Direction;
+        this.I = I + Direction.vertical;
+        this.J = J + Direction.horizontal;
+        this.Direction = Direction;
     }
 
     public char Current { get; init; }
-    public int i { get; init; }
-    public int j { get; init; }
-    public Direction direction { get; init; }
+    public int I { get; init; }
+    public int J { get; init; }
+    public Direction Direction { get; init; }
 
     public char GetNext()
     {
@@ -26,13 +26,5 @@ public record NextChar
             default:
                 return ' ';
         }
-    }
-
-    public void Deconstruct(out char next, out int i, out int j, out Direction direction)
-    {
-        next = this.Current;
-        i = this.i;
-        j = this.j;
-        direction = this.direction;
     }
 }

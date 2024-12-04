@@ -30,31 +30,26 @@ namespace AdventOfCode2024.Puzzle4
                 var row = input[i];
                 for (int j = 0; j < row.Length; j++)
                 {
-                    if (row[j] == 'X')
+                    if (row[j] != 'X') continue;
+                    foreach (var direction in directions)
                     {
-                        foreach (var direction in directions)
-                        {
-                            starts.Push(new NextChar('M', i, j, direction));
-                        }
+                        starts.Push(new NextChar('M', i, j, direction));
                     }
-                    
+
                 }
             }
 
-            while (starts.Any())
+            while (starts.Count != 0)
             {
                 var current = starts.Pop();
-                Console.WriteLine($"{current.Current}-{current.i}-{current.j}");
-                if (SafeAccess(input, current))
+                if (!IsSafeMatch(input, current)) continue;
+                if (current.Current == 'S')
                 {
-                    if (current.Current == 'S')
-                    {
-                        total++;
-                    }
-                    else
-                    {
-                        starts.Push(new NextChar(current.GetNext(), current.i, current.j, current.direction));
-                    }
+                    total++;
+                }
+                else
+                {
+                    starts.Push(new NextChar(current.GetNext(), current.I, current.J, current.Direction));
                 }
             }
 
@@ -62,11 +57,11 @@ namespace AdventOfCode2024.Puzzle4
             return total;
         }
 
-        private static bool SafeAccess(char[][] input, NextChar current)
+        private static bool IsSafeMatch(char[][] input, NextChar current)
         {
-            if (current.i < 0 ||current.i>= input.Length || current.j < 0 || current.j >= input[current.i].Length)
+            if (current.I < 0 || current.I>= input.Length || current.J < 0 || current.J >= input[current.I].Length)
                 return false;
-            return input[current.i][current.j] == current.Current;
+            return input[current.I][current.J] == current.Current;
         }
         
 
@@ -75,14 +70,7 @@ namespace AdventOfCode2024.Puzzle4
         public long SolveB()
         {
             var input = Rows.Select(x => x.ToCharArray()).ToArray();
-
-            List<Direction> directions =
-            [
-                new Direction(-1, -1),
-                new Direction(-1, 1),
-                new Direction(1, 1),
-                new Direction(1, -1)
-            ];
+      
 
             var starts = new List<Cross>();
             for (var i = 0; i < input.Length; i++)
