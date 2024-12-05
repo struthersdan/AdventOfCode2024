@@ -59,12 +59,11 @@ namespace AdventOfCode2024.Puzzle4
 
         private static bool IsSafeMatch(char[][] input, NextChar current)
         {
-            if (current.I < 0 || current.I>= input.Length || current.J < 0 || current.J >= input[current.I].Length)
-                return false;
+            if (!input.ContainsCoordinates(current.I, current.J)) return false;
             return input[current.I][current.J] == current.Current;
         }
-        
 
+      
 
 
         public long SolveB()

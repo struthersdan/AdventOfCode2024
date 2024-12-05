@@ -20,12 +20,9 @@ public record Cross(int I, int J)
 
     private static char? SafeAccess(char[][] input, int i, int j)
     {
-        if (i < 0 ||i>= input.Length || j < 0 || j >= input[i].Length)
-            return null;
-        char c = input[i][j];
-
-        if (c != 'M' && c != 'S') return null;
-        return c;
+        if (!input.ContainsCoordinates(i, j)) return null;
+        var c = input[i][j];
+        return c != 'M' && c != 'S' ? null : c;
     }
 
 }

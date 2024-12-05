@@ -5,8 +5,8 @@ namespace AdventOfCode2024.Puzzle5
     [TestFixture]
     internal class Tests
     {
-        [TestCase("sample.txt", 18)]
-        [TestCase("input.txt", 2543)]
+        //[TestCase("sample.txt", 143)]
+        [TestCase("input.txt", 5129)]
         public void PartA(string inputName, int answer)
         {
             var result = new Puzzle(inputName).Solve();
@@ -15,8 +15,8 @@ namespace AdventOfCode2024.Puzzle5
         }
 
 
-        [TestCase("sample.txt", 9)]
-        [TestCase("input.txt", 1930)]
+        //[TestCase("sample.txt", 123)]
+       [TestCase("input.txt", 4077)]
         public void PartB(string inputName, int answer)
         {
             var result = new Puzzle(inputName).SolveB();

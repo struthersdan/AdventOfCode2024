@@ -18,6 +18,9 @@
     <None Update="Puzzle5\input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Puzzle5\rules.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Puzzle5\sample.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -43,6 +46,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Puzzle1\sample.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Puzzle5\sample_rules.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

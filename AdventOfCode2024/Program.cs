@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AdventOfCode2024.Puzzle3;
+using AdventOfCode2024.Puzzle5;
 
 Console.WriteLine("Hello, World!");
-new Puzzle("sample.txt").Solve();
+new Puzzle("sample.txt").SolveB();
