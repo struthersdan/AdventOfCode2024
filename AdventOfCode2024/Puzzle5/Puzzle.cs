@@ -31,9 +31,7 @@ internal class Puzzle(string inputName)
         var invalidRows = new Stack<int[]>();
         foreach(var row in Rows.Select(x=>x.Split(",").Select(int.Parse).ToArray()))
         {
-            var isValid = CheckIfRowIsValid(row, ruleDict);
-
-            if(!isValid) invalidRows.Push(row);
+            if(!CheckIfRowIsValid(row, ruleDict)) invalidRows.Push(row);
         }
 
 
