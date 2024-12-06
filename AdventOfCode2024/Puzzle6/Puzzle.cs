@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AdventOfCode2024.Puzzle6;
 
@@ -15,7 +16,7 @@ internal class Puzzle(string inputName)
     {
         var total = 1L;
 
-        var input = Rows.Select(x => x.ToCharArray()).ToArray();
+        var input = BuildInput();
 
         var (i, j) = FindStart(input);
 
@@ -51,20 +52,6 @@ internal class Puzzle(string inputName)
         return total;
     }
 
-    private static void WriteInput(char[][] input)
-    {
-        foreach (var c in input)
-        {
-            foreach (var c1 in c)
-            {
-                Console.Write(c1);
-            }
-
-            Console.WriteLine();
-        }
-
-        Console.WriteLine();
-    }
 
     private static StepDirection GetNextDirection(StepDirection direction)
     {
@@ -109,19 +96,18 @@ internal class Puzzle(string inputName)
 
     public long SolveB()
     {
-        var input = Rows.Select(x => x.ToCharArray()).ToArray();
+        var input = BuildInput();
 
         var (i, j) = FindStart(input);
+        var direction = GetDirection(input[i][j]);
 
-        var curr = input[i][j];
+        var places = new HashSet<(int, int)>();
 
-        var direction = GetDirection(curr);
-        var places = new HashSet<(int i, int j)> ();
-        while (input.ContainsCoordinates(i, j))
+        while (HelperMethods.IsValidCoordinates( input.Length,input[0].Length, i, j))
         {
             var nextI = i + direction.y;
             var nextJ = j + direction.x;
-            if (!input.ContainsCoordinates(nextI, nextJ))
+            if (!HelperMethods.IsValidCoordinates( input.Length,input[0].Length, nextI, nextJ))
             {
                 places.Add((i, j));
                 break;
@@ -130,7 +116,7 @@ internal class Puzzle(string inputName)
 
             if (next is not '#')
             {
-                if (curr != '^') 
+                if (input[i][j] != '^') 
                 {
                     places.Add((i, j));
                 }
@@ -142,38 +128,54 @@ internal class Puzzle(string inputName)
             {
                 direction = GetNextDirection(direction);
             }
-            curr = next;
         }
 
         return CountBlockers(places, input);
     }
 
-    private static long CountBlockers(HashSet<(int i, int j)> places, char[][] input)
+    private char[][] BuildInput()
     {
-        var count = 0L;
-        foreach (var (i,j) in places)
+        var input = new char[Rows.Length][];
+        for (int row = 0; row < Rows.Length; row++)
         {
-            input[i][j] = '#';
-            if (!TryToEscape(input)) count++;
-            input[i][j] = '.';
+            input[row] = Rows[row].ToCharArray();
         }
 
-        return count;
+        return input;
     }
 
-    private static bool TryToEscape(char[][] input)
+    private static long CountBlockers(HashSet<(int i, int j)> places, char[][] input)
     {
         var (i, j) = FindStart(input);
         var direction = GetDirection(input[i][j]);
 
-        var steps = new HashSet<Vector> ();
-        while (input.ContainsCoordinates(i, j))
+        return places.AsParallel()
+            .Select(x=> UpdateLocalInput(input, x))
+            .Count(localInput => !TryToEscape(localInput, i, j, direction));
+    }
+
+    private static char[][] UpdateLocalInput(char[][] input, (int i, int j) place)
+    {
+        var localInput = new char[input.Length][];
+        for (int row = 0; row < input.Length; row++)
         {
-            var vector = new Vector(i, j, direction);
-            if (!steps.Add(vector)) return false;
+            localInput[row] = row == place.i
+                ? input[row].Select((c, col) => col == place.j ? '#' : c).ToArray()
+                : input[row];
+        }
+        return localInput;
+    }
+
+    private static bool TryToEscape(char[][] input, int i, int j, StepDirection direction)
+    {
+        var steps = new HashSet<(int, int, StepDirection)> ();
+
+        while (HelperMethods.IsValidCoordinates( input.Length,input[0].Length, i, j))
+        {
+            if (!steps.Add((i, j, direction))) return false;
             var nextI = i + direction.y;
             var nextJ = j + direction.x;
-            if (!input.ContainsCoordinates(nextI, nextJ)) break;
+            if (!HelperMethods.IsValidCoordinates(input.Length,input[0].Length, nextI, nextJ)) break;
             var next = input[nextI][nextJ];
 
             if (next is not '#')
@@ -187,9 +189,11 @@ internal class Puzzle(string inputName)
             }
         }
 
+        
         return true;
+
+       
     }
 
-    private record Vector(int i, int j, StepDirection direction);
-    internal record StepDirection(int y, int x);
+    private record struct StepDirection(int y, int x);
 }

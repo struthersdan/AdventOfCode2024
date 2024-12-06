@@ -24,5 +24,8 @@
         {
             return i >= 0 && i < input.Length && j >= 0 && j < input[i].Length;
         }
+
+        public static bool IsValidCoordinates(int rows, int cols, int x, int y) =>
+            x >= 0 && x < rows && y >= 0 && y < cols;
     }
 }
