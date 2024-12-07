@@ -20,12 +20,11 @@ internal class Puzzle(string inputName)
 
         foreach (var (expected, set) in input)
         {
-            if (CanSolve(set[0], 0, set, expected)) total += expected;
+            if (CanSolve(set[^1], set.Length-1, set, expected)) total += expected;
         }
 
         return total;
     }
-
 
     public long SolveB()
     {
@@ -33,36 +32,46 @@ internal class Puzzle(string inputName)
         var input = BuildInput();
         foreach (var (expected, set) in input)
         {
-            if (CanSolve(set[0], 0, set, expected, true)) total += expected;
+            if (CanSolve(set[^1], set.Length-1, set, expected, true)) total += expected;
         }
 
         return total;
     }
 
-    private static bool CanSolve(long runningTotal, int index, long[] set, long expected, bool concatenate = false)
+    private static bool CanSolve(long current, int index, long[] set, long currentRemainder, bool concatenate = false)
     {
-        if (runningTotal > expected) return false;
-        if (index == set.Length - 1) return expected == runningTotal;
+        if (current > currentRemainder) return false;
+        if (index == 0) return currentRemainder == current;
 
-        var nextIndex = index + 1;
+        var nextIndex = index - 1;
         var nextNum = set[nextIndex];
 
-        return CanSolve(runningTotal + nextNum, nextIndex, set, expected, concatenate) ||
-               CanSolve(runningTotal * nextNum, nextIndex, set, expected, concatenate) ||
-               concatenate &&
-               CanSolve(long.Parse($"{runningTotal}{nextNum}"), nextIndex, set, expected, concatenate);
+        if (currentRemainder % current == 0 && CanSolve(nextNum, nextIndex, set, currentRemainder / current, concatenate))
+            return true;
+        if (currentRemainder >= current && CanSolve(nextNum, nextIndex, set, currentRemainder - current, concatenate))
+            return true;
+        if (!concatenate) return false;
+
+        var remainderString = currentRemainder.ToString();
+        var currentString = current.ToString();
+
+        if (!remainderString.EndsWith(currentString)) return false;
+
+        var nextString = remainderString[..^currentString.Length];
+
+        if (nextString == "") return false;
+
+        var nextRemainder = long.Parse(nextString);
+
+        return CanSolve(nextNum, nextIndex, set, nextRemainder, concatenate);
     }
 
     private List<(long, long[])> BuildInput()
     {
-        var input = new List<(long, long[])>();
-        foreach (var t in Rows)
-        {
-            var parts = t.Split(':').Select(x => x.Trim()).ToArray();
-            var set = parts[1].Split(' ').Select(x => long.Parse(x.Trim())).ToArray();
-            input.Add((long.Parse(parts[0]), set));
-        }
-
-        return input;
+        return (from t in Rows
+            select t.Split(':').Select(x => x.Trim()).ToArray()
+            into parts
+            let set = parts[1].Split(' ').Select(x => long.Parse(x.Trim())).ToArray()
+            select (long.Parse(parts[0]), set)).ToList();
     }
 }
