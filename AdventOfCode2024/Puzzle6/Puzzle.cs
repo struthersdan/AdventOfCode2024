@@ -15,14 +15,12 @@ internal class Puzzle(string inputName)
     public long Solve()
     {
         var total = 1L;
+        var direction = Up;
 
         var input = BuildInput();
 
         var (i, j) = FindStart(input);
-
-        var curr = input[i][j];
-
-        var direction = Up;
+       
         while (input.ContainsCoordinates(i, j))
         {
             var nextI = i + direction.y;
@@ -38,7 +36,7 @@ internal class Puzzle(string inputName)
                 }
 
                 input[i][j] = 'x';
-                input[nextI][nextJ] = curr;
+                input[nextI][nextJ] = input[i][j];
                 i = nextI;
                 j = nextJ;
             }
@@ -143,11 +141,9 @@ internal class Puzzle(string inputName)
     private static long CountBlockers(HashSet<(int i, int j)> places, char[][] input)
     {
         var (i, j) = FindStart(input);
-        var direction = Up;
 
         return places.AsParallel()
-            .Select(x => UpdateLocalInput(input, x))
-            .Count(localInput => !TryToEscape(localInput, i, j, direction));
+            .Count(place => !TryToEscape(UpdateLocalInput(input, place), i, j, Up));
     }
 
     private static char[][] UpdateLocalInput(char[][] input, (int i, int j) place)
