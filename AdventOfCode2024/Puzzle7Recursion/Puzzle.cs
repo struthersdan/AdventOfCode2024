@@ -50,6 +50,7 @@ internal class Puzzle(string inputName)
             return true;
         if (currentRemainder >= current && CanSolve(nextNum, nextIndex, set, currentRemainder - current, concatenate))
             return true;
+
         if (!concatenate) return false;
 
         var remainderString = currentRemainder.ToString();

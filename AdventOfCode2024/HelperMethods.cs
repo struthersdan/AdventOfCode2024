@@ -24,5 +24,18 @@
         {
             return i >= 0 && i < input.Length && j >= 0 && j < input[i].Length;
         }
+
+        public static void PrintGrid(this char[][] input)
+        {
+            foreach (var t in input)
+            {
+                for (int j = 0; j < input[0].Length; j++)
+                {
+                    Console.Write(t[j]);
+                }
+
+                Console.WriteLine();
+            }
+        }
     }
 }
