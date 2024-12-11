@@ -20,7 +20,7 @@
             return transposed.ToArray();
         }
 
-        public static bool ContainsCoordinates(this char[][] input, int i, int j)
+        public static bool ContainsCoordinates<T>(this T[][] input, int i, int j)
         {
             return i >= 0 && i < input.Length && j >= 0 && j < input[i].Length;
         }
