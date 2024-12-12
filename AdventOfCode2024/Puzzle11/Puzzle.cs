@@ -5,10 +5,7 @@ internal class Puzzle
     public Puzzle(string inputName)
     {
         Rows = File.ReadAllLines($"{GetInputNameInFolder(inputName)}");
-        Input = Rows.Select(x => x.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(i=> long.Parse($"{i}")).ToArray()).ToArray();
     }
-
-    public long[][] Input { get; set; }
 
     private string[] Rows { get; set; }
 
@@ -17,24 +14,25 @@ internal class Puzzle
         return $"{typeof(Puzzle).Namespace?.Split(".")[1]}/{inputName}";
     }
 
-    private readonly Dictionary<(long, int), long> memo = new Dictionary<(long, int), long>();
+    private readonly Dictionary<(long stone, int remainingBlinks), long> _memo = new Dictionary<(long, int), long>();
 
     public long Solve()
     {
-        var stoneCount = 0L;
+        var input = Rows.Select(x =>
+            x.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse($"{i}")).ToArray()).First();
+        return input.Sum(l => Blink(l, 25));
+    }
 
-        foreach (var l in Input[0])
-        {
-            stoneCount += Blink(l, 25);
-        }
-
-        return stoneCount;
+    public long SolveB()
+    {
+        var input = Rows.Select(x =>
+            x.Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse($"{i}")).ToArray()).First();
+        return input.Sum(l => Blink(l, 75));
     }
 
     private long Blink(long stone, int remainingBlinks)
     {
-        Console.WriteLine(remainingBlinks);
-        if (memo.TryGetValue((stone, remainingBlinks), out var memoCount)) return memoCount;
+        if (_memo.TryGetValue((stone, remainingBlinks), out var memoCount)) return memoCount;
         var nextBlink = remainingBlinks - 1;
         var count = 0L;
         if (remainingBlinks == 0) return 1;
@@ -44,7 +42,7 @@ internal class Puzzle
         }
         else if ($"{stone}".Length % 2 == 0)
         {
-            var middle  = $"{stone}".Length / 2;
+            var middle = $"{stone}".Length / 2;
             var firstNumber = long.Parse($"{stone}"[..(middle)]);
             var secondNumber = long.Parse($"{stone}"[(middle)..]);
             count += Blink(firstNumber, nextBlink);
@@ -56,21 +54,7 @@ internal class Puzzle
             count += Blink(stone * 2024, nextBlink);
         }
 
-        memo.Add((stone, remainingBlinks), count);
+        _memo.Add((stone, remainingBlinks), count);
         return count;
     }
-
-
-    public long SolveB()
-    {
-        var stoneCount = 0L;
-
-        foreach (var l in Input[0])
-        {
-            stoneCount += Blink(l, 75);
-        }
-
-        return stoneCount;
-    }
-
 }

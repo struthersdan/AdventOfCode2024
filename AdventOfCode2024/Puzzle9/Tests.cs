@@ -18,7 +18,7 @@ namespace AdventOfCode2024.Puzzle9
 
         [TestCase("sample.txt", 2858)]
         [TestCase("input.txt", 6363268339304)]
-        [Ignore("slow")]
+        //[Ignore("slow")]
         public void PartB(string inputName, long answer)
         {
             var result = new Puzzle(inputName).SolveB();
