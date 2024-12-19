@@ -16,7 +16,7 @@ namespace AdventOfCode2024.Puzzle16
 
 
         [TestCase("sample.txt", 64)]
-        [TestCase("input.txt", 1521952)]
+        [TestCase("input.txt", 529)]
         public void PartB(string inputName, long answer)
         {
             var result = new Puzzle(inputName).SolveB();

@@ -45,29 +45,33 @@ internal class Puzzle
             if (currCharacter == '#') continue;
             if (currCharacter == 'E')
             {
-                if (runningTotal < shortest)
-                {
-                    shortest = runningTotal;
-                }
-                continue;
+                return runningTotal;
             }
 
             var ccVector = new Vector(location, RotateCounter(direction));
             if (!visited.Contains(ccVector)) 
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (ccVector,  newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(ccVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new(ccVector, newRunning, [..visited]), newRunning);
+                }
             }
             var cwVector = new Vector(location, RotateClockWise(direction));
             if (!visited.Contains(cwVector))
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(cwVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                }
             }
 
             (int i, int j ) next = (location.i + move.y, location.j + move.x);
             var straightVector = new Vector(next, direction);
-            if (!visited.Contains( straightVector))
+            if (!visited.Contains(straightVector) && _maze[next.i][next.j] != '#' )
             {
                 var newRunning = runningTotal + 1;
                 stack.Enqueue(new Runner(straightVector, newRunning, [..visited]), newRunning);
@@ -148,33 +152,40 @@ internal class Puzzle
             if (currCharacter == '#') continue;
             if (currCharacter == 'E')
             {
-                if (runningTotal < shortest)
-                {
-                    shortest = runningTotal;
-                }
-                continue;
+                shortest = runningTotal;
+
+                break;
             }
 
             var ccVector = new Vector(location, RotateCounter(direction));
             if (!visited.Contains(ccVector)) 
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (ccVector,  newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(ccVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new(ccVector, newRunning, [..visited]), newRunning);
+                }
             }
             var cwVector = new Vector(location, RotateClockWise(direction));
             if (!visited.Contains(cwVector))
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(cwVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                }
             }
 
             (int i, int j ) next = (location.i + move.y, location.j + move.x);
             var straightVector = new Vector(next, direction);
-            if (!visited.Contains( straightVector))
+            if (!visited.Contains(straightVector) && _maze[next.i][next.j] != '#' )
             {
                 var newRunning = runningTotal + 1;
                 stack.Enqueue(new Runner(straightVector, newRunning, [..visited]), newRunning);
             }
+
            
         }
 
@@ -207,23 +218,32 @@ internal class Puzzle
             var ccVector = new Vector(location, RotateCounter(direction));
             if (!visited.Contains(ccVector)) 
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (ccVector,  newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(ccVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new(ccVector, newRunning, [..visited]), newRunning);
+                }
             }
             var cwVector = new Vector(location, RotateClockWise(direction));
             if (!visited.Contains(cwVector))
             {
-                var newRunning = runningTotal + 1000;
-                stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                var moveDirection = GetMoveDirection(cwVector.direction);
+                if (_maze[location.i + moveDirection.y][location.j + moveDirection.x] != '#')
+                {
+                    var newRunning = runningTotal + 1000;
+                    stack.Enqueue(new (cwVector, newRunning, [..visited]), newRunning);
+                }
             }
 
             (int i, int j ) next = (location.i + move.y, location.j + move.x);
             var straightVector = new Vector(next, direction);
-            if (!visited.Contains( straightVector))
+            if (!visited.Contains(straightVector) && _maze[next.i][next.j] != '#' )
             {
                 var newRunning = runningTotal + 1;
                 stack.Enqueue(new Runner(straightVector, newRunning, [..visited]), newRunning);
             }
+
            
         }
 
