@@ -54,7 +54,7 @@ namespace AdventOfCode2024.Puzzle2
                    direction == Direction.Decreasing && difference is < -3 or > -1;
         }
 
-        
+       
 
         public long SolveB()
         {
@@ -75,4 +75,5 @@ namespace AdventOfCode2024.Puzzle2
 
      
     }
+
 }

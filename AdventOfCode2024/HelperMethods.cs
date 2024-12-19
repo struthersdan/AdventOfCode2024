@@ -37,5 +37,34 @@
                 Console.WriteLine();
             }
         }
+
+        public enum GridDirection
+        {
+            Up, Down, Left, Right
+        }
+
+        public static GridDirection RotateClockWise(GridDirection direction)
+        {
+            return direction switch
+            {
+                GridDirection.Up => GridDirection.Right,
+                GridDirection.Down => GridDirection.Left,
+                GridDirection.Left => GridDirection.Up,
+                GridDirection.Right => GridDirection.Down,
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
+
+        public static GridDirection RotateCounter(GridDirection direction)
+        {
+            return direction switch
+            {
+                GridDirection.Up => GridDirection.Left,
+                GridDirection.Down => GridDirection.Right,
+                GridDirection.Left => GridDirection.Down,
+                GridDirection.Right => GridDirection.Up,
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
     }
 }
