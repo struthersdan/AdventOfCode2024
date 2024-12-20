@@ -25,6 +25,15 @@
             return i >= 0 && i < input.Length && j >= 0 && j < input[i].Length;
         }
 
+        public static bool SafeAccess(this char[][] input, int i, int j, out char c)
+        {
+            c = default;
+            if (!input.ContainsCoordinates(i, j)) return false;
+            c = input[i][j];
+            return true;
+
+        }
+
         public static void PrintGrid(this char[][] input)
         {
             foreach (var t in input)
@@ -65,6 +74,19 @@
                 GridDirection.Right => GridDirection.Up,
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
+        }
+
+        public static void WriteInput(char[][] input)
+        {
+            foreach (var t in input)
+            {
+                for (int j = 0; j < input[0].Length; j++)
+                {
+                    Console.Write(t[j]);
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }
