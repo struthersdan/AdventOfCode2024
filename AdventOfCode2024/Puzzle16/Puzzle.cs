@@ -27,7 +27,7 @@ internal class Puzzle
     public long Solve()
     {
         var shortest = 1000000L;
-        var start = FindReindeer();
+        var start = HelperMethods.FindStart(_maze, 'S');
         var stack = new PriorityQueue<Runner, long>();
         stack.Enqueue(new Runner(new Vector(start, GridDirection.Right), 0, []), 0);
         while (stack.TryDequeue(out var curr, out _))
@@ -113,28 +113,13 @@ internal class Puzzle
     private readonly MoveDirection Right = new MoveDirection(1, 0);
 
 
-    private (int i, int j) FindReindeer()
-    {
-        (int i, int j) start = (0, 0);
-
-        for (int i = 0; i < _maze.Length; i++)
-        {
-            for (int j = 0; j < _maze[i].Length; j++)
-            {
-                if(_maze[i][j] == 'S') return  (i, j);
-            }
-        }
-
-        return start;
-    }
-
   
 
     public long SolveB()
     {
         var visitedTiles = new HashSet<(int, int)>();
         var shortest = 1000000L;
-        var start = FindReindeer();
+        var start = HelperMethods.FindStart(_maze, 'S');
         var stack = new PriorityQueue<Runner, long>();
         stack.Enqueue(new Runner(new Vector(start, GridDirection.Right), 0, []), 0);
         while (stack.TryDequeue(out var curr, out _))

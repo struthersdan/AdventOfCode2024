@@ -1,12 +1,13 @@
 ﻿using NUnit.Framework;
 
-namespace AdventOfCode2024.Puzzle16
+namespace AdventOfCode2024.Puzzle19
 {
     [TestFixture]
     internal class Tests
     {
-        [TestCase("sample.txt", 11048)]
-        [TestCase("input.txt", 111480)]
+        [TestCase("sample.txt", 6)]
+        [TestCase("input.txt", 272)]
+    
         public void PartA(string inputName, long answer)
         {
             var result = new Puzzle(inputName).Solve();
@@ -15,8 +16,8 @@ namespace AdventOfCode2024.Puzzle16
         }
 
 
-        [TestCase("sample.txt", 64)]
-        [TestCase("input.txt", 529), Ignore("slow")]
+        [TestCase("sample.txt", 16)]
+        [TestCase("input.txt", 1041529704688380)]
         public void PartB(string inputName, long answer)
         {
             var result = new Puzzle(inputName).SolveB();
