@@ -14,8 +14,6 @@ internal class Puzzle
     }
 
 
-    public record RacePosition(int i, int j, int count);
-
     private string[] Rows { get; set; }
 
     private static string GetInputNameInFolder(string inputName)
@@ -81,7 +79,6 @@ internal class Puzzle
             }
             if (c != '#')
             {
-                _raceTrack[i][j] = 'O';
                 racePositions.Add((i, j));
                 stack.Push((i+1, j));
                 stack.Push((i-1, j));
