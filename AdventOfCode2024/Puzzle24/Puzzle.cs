@@ -101,25 +101,63 @@ internal class Puzzle
 
 
     public string SolveB()
-    { 
-        //foreach (var gate in _gates.OrderBy(x=>x.LeftInput))
-        //{
-        //    switch (gate.Op)
-        //    {
-        //        case Operator.OR:
-        //            Console.WriteLine($"{_gates.IndexOf(gate)}[shape=diamond, label=\"{gate.Op}\"]");
-        //            break;
-        //        case Operator.AND:
-        //            Console.WriteLine($"{_gates.IndexOf(gate)}[shape=square,  label=\"{gate.Op}\"]");
-        //            break;
-        //        case Operator.XOR:
-        //            Console.WriteLine($"{_gates.IndexOf(gate)}[shape=star, label=\"{gate.Op}\"]");
-        //            break;
-        //        default:
-        //            throw new ArgumentOutOfRangeException();
-        //    }
-        //    Console.WriteLine($"{{{gate.LeftInput}, {gate.RightInput}}} -> {_gates.IndexOf(gate)} -> {gate.Output};");
-        //}
+    {
+        foreach (var gate in _gates.Where(x => x.Output.StartsWith('z')).OrderBy(x => x.Output))
+        {
+            switch (gate.Op)
+            {
+                case Operator.OR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=diamond, label=\"{gate.Op}\"]");
+                    break;
+                case Operator.AND:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=square,  label=\"{gate.Op}\"]");
+                    break;
+                case Operator.XOR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=star, label=\"{gate.Op}\"]");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Console.WriteLine($"{{{gate.LeftInput}, {gate.RightInput}}} -> {_gates.IndexOf(gate)} -> {gate.Output};");
+        }
+
+        foreach (var gate in _gates.Where(x=>x.LeftInput.StartsWith('x') && !x.Output.StartsWith('z')).OrderBy(x => x.LeftInput))
+        {
+            switch (gate.Op)
+            {
+                case Operator.OR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=diamond, label=\"{gate.Op}\"]");
+                    break;
+                case Operator.AND:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=square,  label=\"{gate.Op}\"]");
+                    break;
+                case Operator.XOR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=star, label=\"{gate.Op}\"]");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Console.WriteLine($"{{{gate.LeftInput}, {gate.RightInput}}} -> {_gates.IndexOf(gate)} -> {gate.Output};");
+        }
+
+        foreach (var gate in _gates.Where(x=> !x.Output.StartsWith('z') && !x.LeftInput.StartsWith('x')).OrderByDescending(x => x.LeftInput))
+        {
+            switch (gate.Op)
+            {
+                case Operator.OR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=diamond, label=\"{gate.Op}\"]");
+                    break;
+                case Operator.AND:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=square,  label=\"{gate.Op}\"]");
+                    break;
+                case Operator.XOR:
+                    Console.WriteLine($"{_gates.IndexOf(gate)}[shape=star, label=\"{gate.Op}\"]");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Console.WriteLine($"{{{gate.LeftInput}, {gate.RightInput}}} -> {_gates.IndexOf(gate)} -> {gate.Output};");
+        }
 
         return string.Join(",", GenerateSwaps([]).Keys.Distinct().Order());
     }
