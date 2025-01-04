@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2024;
+﻿namespace Utilities;
 
 public static class HelperMethods
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel.Design;
-using static AdventOfCode2024.HelperMethods;
+using static Utilities.HelperMethods;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace AdventOfCode2024.Puzzle16;

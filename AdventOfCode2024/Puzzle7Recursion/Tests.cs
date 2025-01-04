@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace AdventOfCode2024.Puzzle7Recursion
+﻿namespace AdventOfCode2024.Puzzle7Recursion
 {
     [TestFixture]
     internal class Tests

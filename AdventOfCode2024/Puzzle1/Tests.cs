@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace AdventOfCode2024.Puzzle1
+﻿namespace AdventOfCode2024.Puzzle1
 {
     [TestFixture]
     internal class Tests

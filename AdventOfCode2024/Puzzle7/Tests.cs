@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-namespace AdventOfCode2024.Puzzle7
+﻿namespace AdventOfCode2024.Puzzle7
 {
     [TestFixture]
     [Ignore("duplicate")]
