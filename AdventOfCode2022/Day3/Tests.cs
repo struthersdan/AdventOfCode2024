@@ -17,7 +17,7 @@ namespace AdventOfCode2022.Day3
         }
 
         [TestCase("sample.txt", 70)]
-        [TestCase("input.txt", 12424)]
+        [TestCase("input.txt", 2499)]
         public void PartB(string inputName, int answer)
         {
             var rows = File.ReadAllLines($"{typeof(Tests).Namespace?.Split(".")[1]}/{inputName}");

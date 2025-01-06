@@ -1,38 +1,32 @@
-﻿namespace AdventOfCode2022.Day4
+﻿using System.Text.RegularExpressions;
+
+namespace AdventOfCode2022.Day4
 {
     internal class Puzzle(string [] rows)
     {
         private string[] Rows { get; set; } = rows;
-        private const string Rock = "A";
-        private const string Paper = "B";
-        private const string Scissors = "C";
+
+        private static readonly Regex Regex = new(@"(?'first'\d*\-\d*),(?'second'\d*\-\d*)");
 
         public long Solve()
         {
-            var priorities = 0L;
+            var overlaps = 0L;
             foreach (var row in Rows)
             {
-                var array = row.ToCharArray();
-                var length = row.Length /2;
+                var match = Regex.Match(row);
 
-                var firstHalf = array.Take(length);
-                var secondHalf = array.TakeLast(length);
+                var first = match.Groups["first"].Value.Split("-").Select(int.Parse).ToArray();
+                var second =  match.Groups["second"].Value.Split("-").Select(int.Parse).ToArray();
 
-                var dupe = firstHalf.Intersect(secondHalf).First();
-           
-                if (dupe - 'a' >= 0)
+                if (first[0] <= second[0] && first[1] >= second[1] || second[0] <= first[0] && second[1] >= first[1])
                 {
-                    priorities += dupe - 'a' + 1;
+                    overlaps++;
                 }
-                else
-                {
-                    priorities += dupe - 'A' + 27;
-                }
-                
-               
+
+
             }
 
-            return priorities;
+            return overlaps;
         }
 
     
@@ -40,25 +34,24 @@
         public long SolveB()
         {  var badges = 0L;
 
-            while (Rows.Length >=3)
+            var overlaps = 0L;
+            foreach (var row in Rows)
             {
-                var group = Rows.Take(3).Select(x=>x.ToCharArray()).ToArray();
+                var match = Regex.Match(row);
 
-                var dupe = group[0].Intersect(group[1]).Intersect(group[2]).First();
-                
-                if (dupe - 'a' >= 0)
+                var first = match.Groups["first"].Value.Split("-").Select(int.Parse).ToArray();
+                var second =  match.Groups["second"].Value.Split("-").Select(int.Parse).ToArray();
+
+                if (first[0] <= second[1] && first[0] >= second[0] ||
+                    second[0] >= first[0] && second[0] <= first[1])
                 {
-                    badges += dupe - 'a' + 1;
+                    overlaps++;
                 }
-                else
-                {
-                    badges += dupe - 'A' + 27;
-                }
-                Rows = Rows[3..];
+
 
             }
 
-            return badges;
+            return overlaps;
         }
 
     }
